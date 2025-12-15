@@ -18,11 +18,6 @@ Each machine is documented as a small pentest report:
 - Privileges and Escalation
 - Documentation of discovered vulnerabilities
 
-  Progress
-- Tier 0: In progress
-- Tier 1: Planned
-- Tier 2: Planned
-
 
  Goal
 To build a solid foundation for a junior cybersecurity position (SOC / Pentesting / Security Analyst)
