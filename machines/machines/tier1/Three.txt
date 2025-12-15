@@ -1,1 +1,23 @@
+Machine: Three
 
+1. General Information 
+IP Address:
+Operating System: Linux
+Tier: Tier 1
+Machine Type: Very Easy
+
+2. Enumeration
+
+Network Scan
+Tool: nmap
+Command: Command: Standard nmap scan for common TCP ports
+Open Ports: 80/tcp
+Services: http(Apache)
+
+3. Vulnerability Analysis
+Identified Vulnerability: A publicly accessible S3-compatible storage bucket is exposed and used
+to host web content
+
+4. Reason it exists:
+The storage bucket is misconfigured and allows anonymous access without
+authentication or access restrictions
