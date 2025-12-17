@@ -1,0 +1,60 @@
+ Hack The Box – Archetype
+
+1. General Information
+Machine Name: Archetype
+IP Address: {TARGET_IP}
+Operating System: Windows
+Tier: Tier 2
+Machine Type: Easy
+
+2. Enumeration
+
+Network Scan
+
+Tool: nmap
+Command:** Standard nmap scan for common TCP ports
+nmap -sC -sV -Pn {TARGET_IP}
+
+
+Open Ports
+
+  Port      Service 
+135/tcp     MSRPC   
+139/tcp     NetBIOS 
+445/tcp     SMB     
+1433/tcp    MSSQL   
+
+
+ 3. Vulnerability Analysis
+
+ Identified Vulnerabilities
+
+* Anonymous access to an SMB share
+* Hardcoded MSSQL credentials stored in a configuration file
+* MSSQL misconfiguration allowing command execution via `xp_cmdshell`
+* Privilege escalation possible due to `SeImpersonatePrivilege`
+
+
+
+4. Reason It Exists
+
+* The SMB service is misconfigured to allow anonymous access
+* Sensitive credentials are stored in plaintext within backup configuration files
+* MSSQL is configured insecurely, allowing dangerous stored procedures
+* The service account has excessive privileges, enabling privilege escalation to SYSTEM
+
+
+5. Impact
+
+* Unauthorized access to internal files
+* Compromise of the MSSQL service account
+* Remote command execution on the target system
+* Full system compromise as NT AUTHORITY\SYSTEM
+
+
+6. Key Takeaways
+
+* SMB shares should never allow anonymous access
+* Credentials must not be stored in plaintext configuration files
+* Dangerous MSSQL features such as `xp_cmdshell` should be disabled
+* Service accounts should follow the principle of least privilege
