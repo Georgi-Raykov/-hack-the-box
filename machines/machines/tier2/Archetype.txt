@@ -12,7 +12,7 @@ Machine Type: Easy
 Network Scan
 
 Tool: nmap
-Command:** Standard nmap scan for common TCP ports
+Command: Standard nmap scan for common TCP ports
 nmap -sC -sV -Pn {TARGET_IP}
 
 
