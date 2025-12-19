@@ -2,9 +2,9 @@ Hack The Box – Oopsie
 
 1. General Information
 
-- Machine Name:** Oopsie  
-- IP Address:** <TARGET_IP>  
-- Operating System:** Linux  
+- Machine Name: Oopsie  
+- IP Address: {TARGET_IP}
+- Operating System: Linux  
 - Tier: Tier 2 
 - Machine Type: Easy  
 
