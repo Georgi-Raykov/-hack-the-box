@@ -1,0 +1,35 @@
+Machine Information
+- Name: Vaccine
+- IP Address: 10.129.xxx.xxx
+- OS: Linux
+- Difficulty: Easy / Medium (depending on skill level)
+- Type Web / SQL
+
+Enumeration
+
+1. Network Scan
+- Port scan using nmap:  nmap -sC -sV -Pn 10.129.xxx.xxx
+
+Open ports:
+ 80/tcp - HTTP
+
+2. Web Enumeration
+Visited main page /dashboard.php (requires login)
+Found login form vulnerable to SQL Injection
+Used Burp Suite / Cookie-Editor to extract session cookie for authenticated requests
+
+SQL Injection
+1. Manual Testing
+Tested login form with simple SQL payloads ( OR 1=1 --)
+Confirmed SQL Injection vulnerability on parameter search
+2. Automated Testing with sqlmap
+Logged in via browser and copied PHPSESSID cookie
+Ran sqlmap to verify injection: sqlmap -u "http://10.129.xxx.xxx/dashboard.php?search=test" --cookie="PHPSESSID=YOUR_COOKIE" --batch
+
+
+Notes / Lessons Learned
+
+Always verify SQL Injection both manually and automated
+Remember to handle authenticated SQLi with session cookies
+hashcat is extremely useful for cracking common hashes
+Maintaining a clean GitHub writeup helps track methodology without revealing sensitive info
